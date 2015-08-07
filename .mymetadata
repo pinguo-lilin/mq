@@ -2,7 +2,7 @@
 <project-module
   type="WEB"
   name="mq"
-  id="myeclipse.1438851838647"
+  id="myeclipse.1438917559573"
   context-root="/mq"
   j2ee-spec="1.7"
   archive="mq.war">
