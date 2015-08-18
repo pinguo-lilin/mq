@@ -20,6 +20,11 @@
     <!-- 开启定时任务 -->
     <task:annotation-driven/>    
 	
+	<!-- 默认拦截器 -->
+	<mvc:interceptors>
+		<bean class="pinguo.rocket.mq.interceptor.DefaultInterceptor"></bean>
+	</mvc:interceptors>
+	
     <!-- MyBatis配置 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
