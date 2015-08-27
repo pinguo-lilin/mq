@@ -25,6 +25,8 @@
 		<bean class="pinguo.rocket.mq.interceptor.DefaultInterceptor"></bean>
 	</mvc:interceptors>
 	
+	
+	
     <!-- MyBatis配置 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />

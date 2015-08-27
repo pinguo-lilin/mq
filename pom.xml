@@ -36,6 +36,13 @@
 
 	<dependencies>
 
+		<!-- rocket mq核心包 -->
+		<dependency>
+			<groupId>com.alibaba.rocketmq</groupId>
+			<artifactId>rocketmq-client</artifactId>
+			<version>3.2.6</version>
+		</dependency>
+		
 		<!-- spring 核心依赖包 start -->
 		<dependency>
 			<groupId>org.springframework</groupId>

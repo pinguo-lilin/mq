@@ -21,4 +21,15 @@
     
     <!-- 处理器 
     <bean name="/user" class="pinguo.mq.controller.UserController"/>-->
+    
+    <!-- applicationUtil工具类 -->
+	<bean id="ApplicationContextUtil" class="pinguo.rocket.mq.comm.ApplicationContextUtil"></bean>
+	
+	<!-- producer初始化 -->
+	<bean id="PinGuoProducer" class="com.alibaba.rocketmq.client.producer.DefaultMQProducer" scope="singleton">
+		<property name="producerGroup" value="PgProducerGroup"></property>
+		<property name="namesrvAddr" value="10.1.2.243:9876"></property>
+		<property name="retryTimesWhenSendFailed" value="3"></property>
+		<property name="sendMsgTimeout" value="2000"></property>
+	</bean>
 </beans>
