@@ -69,14 +69,26 @@
         <property name="defaultAutoCommit" value="false" />
     </bean>
 
+	<!-- applicationUtil工具类 -->
+	<bean id="ApplicationContextUtil" class="pinguo.rocket.mq.comm.ApplicationContextUtil"></bean>
+	
+	<!-- producer初始化 -->
+	<bean id="PinGuoProducer" class="com.alibaba.rocketmq.client.producer.DefaultMQProducer" scope="singleton">
+		<property name="producerGroup" value="${rmq.producerGroup}"></property>
+		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
+		<property name="retryTimesWhenSendFailed" value="${rmq.retryTimesWhenSendFailed}"></property>
+		<property name="sendMsgTimeout" value="${rmq.sendMsgTimeout}"></property>
+	</bean>
+	
+	
 	<!-- production环境 -->
     <beans profile="production">
         <context:property-placeholder ignore-unresolvable="true" file-encoding="utf-8" 
-        location="classpath:/config/production/jdbc.properties,classpath:/config/production/config.properties" />
+        location="classpath:/config/production/jdbc.properties,classpath:/config/production/config.properties,classpath:/config/production/rocketmq.properties" />
     </beans>
     <!-- testing环境 -->
     <beans profile="testing">
         <context:property-placeholder ignore-unresolvable="true" file-encoding="utf-8" 
-        location="classpath:/config/testing/jdbc.properties,classpath:/config/testing/config.properties" />
+        location="classpath:/config/testing/jdbc.properties,classpath:/config/testing/config.properties,classpath:/config/testing/rocketmq.properties" />
     </beans>   
 </beans>
