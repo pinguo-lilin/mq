@@ -72,7 +72,7 @@
 	<!-- applicationUtil工具类 -->
 	<bean id="ApplicationContextUtil" class="pinguo.rocket.mq.comm.ApplicationContextUtil"></bean>
 	
-	<!-- producer初始化 -->
+	<!-- DefaultMqProducer初始化 -->
 	<bean id="PinGuoProducer" class="com.alibaba.rocketmq.client.producer.DefaultMQProducer" scope="singleton">
 		<property name="producerGroup" value="${rmq.producerGroup}"></property>
 		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
@@ -80,6 +80,15 @@
 		<property name="sendMsgTimeout" value="${rmq.sendMsgTimeout}"></property>
 	</bean>
 	
+	<!-- DefaultMQPushConsumer初始化 -->
+	<bean id="PinGuoPushConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" scope="singleton">
+		<property name="consumerGroup" value="${rmq.producerGroup}"></property>
+		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
+	</bean>
+	
+	<!-- 初始化rocketmq消费端，不能注解注入，否则会执行两次 -->
+	<bean class="pinguo.rocket.mq.component.InitRocketMq" scope="singleton">
+	</bean>
 	
 	<!-- production环境 -->
     <beans profile="production">
