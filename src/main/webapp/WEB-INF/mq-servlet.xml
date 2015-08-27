@@ -11,7 +11,15 @@
 
 	<!-- 自动扫描bean，把作了注解的类转换为bean -->  
     <context:component-scan base-package="pinguo.rocket.*"/>
-     
+    
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">    
+		<property name="messageConverters">    
+			<list >    
+				<ref bean="mappingJacksonHttpMessageConverter" />    
+			</list>    
+		</property>    
+	</bean>
+	
     <!-- ViewResolver -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -19,6 +27,14 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     
+    <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+	    <property name="supportedMediaTypes">  
+	        <list>  
+	            <value>application/json;charset=UTF-8</value>  
+	       </list>  
+	    </property>
+	</bean>
+	
     <!-- 处理器 
     <bean name="/user" class="pinguo.mq.controller.UserController"/>-->
 </beans>
