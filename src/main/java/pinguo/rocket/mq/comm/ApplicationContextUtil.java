@@ -29,5 +29,14 @@ public class ApplicationContextUtil implements ApplicationContextAware{
 	public static Object getBean(String name) throws BeansException {
 		return applicationContext.getBean(name);
 	}
-
+	
+	/**
+	 * bean是否存在
+	 * 
+	 * @param  name
+	 * @return Boolean
+	 */
+	public static Boolean contain(String name){
+		return applicationContext.containsBean(name);
+	}
 }

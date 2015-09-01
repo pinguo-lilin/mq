@@ -81,8 +81,14 @@
 	</bean>
 	
 	<!-- DefaultMQPushConsumer初始化 -->
-	<bean id="PinGuoPushConsumer" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" scope="singleton">
-		<property name="consumerGroup" value="${rmq.producerGroup}"></property>
+	<bean id="PinGuoPushConsumerOne" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" scope="singleton">
+		<constructor-arg index="0" value="consumerOne" />
+		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
+	</bean>
+	
+	<!-- DefaultMQPushConsumer初始化 -->
+	<bean id="PinGuoPushConsumerTwo" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" scope="singleton">
+		<constructor-arg index="0" value="consumerTwo" />
 		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
 	</bean>
 	
