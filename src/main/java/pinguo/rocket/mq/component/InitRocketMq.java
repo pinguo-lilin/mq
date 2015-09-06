@@ -1,9 +1,10 @@
 package pinguo.rocket.mq.component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.InitializingBean;
 
@@ -11,61 +12,64 @@ import com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import com.alibaba.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import com.alibaba.rocketmq.client.consumer.listener.MessageListenerConcurrently;
+import com.alibaba.rocketmq.client.producer.DefaultMQProducer;
 import com.alibaba.rocketmq.common.message.MessageExt;
 
 import pinguo.rocket.mq.comm.ApplicationContextUtil;
+import pinguo.rocket.mq.entity.Consumer;
 import pinguo.rocket.mq.entity.Subscribe;
+import pinguo.rocket.mq.service.ConsumerService;
+import pinguo.rocket.mq.service.RoutingService;
+import pinguo.rocket.mq.service.SubscribeService;
 
 public class InitRocketMq implements InitializingBean {
 
+	@Resource
+	ConsumerService consumerService;
+	
+	@Resource
+	SubscribeService subscribeService;
+	
+	@Resource
+	RoutingService routingService;
+	
 	/**
 	 * spring所有bean初始化完后，执行该方法
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("init rocket mq ......");
+		
+		//初始化消费者、订阅、路由信息
 		List<String> pinguoConsumers = new ArrayList<String>();
-		Map<String, List<Subscribe>> pinguoSubscribes = new HashMap<String, List<Subscribe>>();
-		Map<String, String> routings = new HashMap<String, String>();
-		
-		//初始化
-		pinguoConsumers.add("PinGuoPushConsumerOne");
-		pinguoConsumers.add("PinGuoPushConsumerTwo");
-		
-		Subscribe subscribeOne = new Subscribe("topicOne", "tagA");
-		Subscribe subscribeOne2 = new Subscribe("topicOne2", "tagB");
-		Subscribe subscribeTwo = new Subscribe("topicTwo", "tagC");
-		List<Subscribe> subscribesOne = new ArrayList<Subscribe>();
-		List<Subscribe> subscribesTwo = new ArrayList<Subscribe>();
-		subscribesOne.add(subscribeOne);
-		subscribesOne.add(subscribeOne2);
-		subscribesTwo.add(subscribeTwo);
-		pinguoSubscribes.put("PinGuoPushConsumerOne", subscribesOne);
-		pinguoSubscribes.put("PinGuoPushConsumerTwo", subscribesTwo);
-		
-		routings.put("tagA", "http://www.camera360.com/tagA");
-		routings.put("tagB", "http://www.camera360.com/tagB");
-		routings.put("tagC", "http://www.camera360.com/tagC");
+		List<Consumer> consumers = consumerService.list();
+		for (Consumer consumer : consumers) {
+			pinguoConsumers.add(consumer.getName());
+		}
+		Map<String, List<Subscribe>> pinguoSubscribes = subscribeService.listByConsumers(consumers);
+		Map<String, Map<String, String>> pinguoRoutings = routingService.listByConsumers(consumers);
 		
 		
+		//初始化producer,只需初始化一次
+		DefaultMQProducer producer = (DefaultMQProducer) ApplicationContextUtil.getBean("PinGuoProducer");
+		producer.start();
 		
-		
-		for (String consumer : pinguoConsumers) {
-			Boolean isCreate = ApplicationContextUtil.contain(consumer);
+		for (String consumerName : pinguoConsumers) {
+			Boolean isCreate = ApplicationContextUtil.contain(consumerName);
 			if(isCreate == false){
-				System.out.println("consumer bean未创建， name=" + consumer);
+				System.out.println("consumer bean未创建， name=" + consumerName);
 				continue;
 			}
-			DefaultMQPushConsumer pushConsumer = (DefaultMQPushConsumer) ApplicationContextUtil
-					.getBean(consumer);
-			if(pinguoSubscribes.containsKey(consumer) == false){
+			if(pinguoSubscribes.containsKey(consumerName) == false){
 				System.out.println("consumer subscribes,不存在");
-				pushConsumer = null;
 				continue;
 			}
-			List<Subscribe> subscribes = pinguoSubscribes.get(consumer);
+			
+			DefaultMQPushConsumer pushConsumer = (DefaultMQPushConsumer) ApplicationContextUtil
+					.getBean(consumerName);
+			List<Subscribe> subscribes = pinguoSubscribes.get(consumerName);
 			for (Subscribe  subscribe: subscribes) {
-				pushConsumer.subscribe(subscribe.getTopic(), subscribe.getTags());
+				pushConsumer.subscribe(subscribe.getTopic(), subscribe.getTag());
 			}
 			pushConsumer.registerMessageListener(new MessageListenerConcurrently() {
 
@@ -75,12 +79,12 @@ public class InitRocketMq implements InitializingBean {
 					byte[] msg = msgExt.getBody();
 					String tag = msgExt.getTags();
 					String strMsg = new String(msg);
-					if (routings.containsKey(tag) == false) {
+					if (pinguoRoutings.get(consumerName).containsKey(tag) == false) {
 						System.out.println("routing未找到，忽略消息");
 						return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 					}
 					// 消费
-					System.out.println("消费消息，tag=" + tag + " msg=" + strMsg + " routeUrl=" + routings.get(tag));
+					System.out.println("消费消息，tag=" + tag + " msg=" + strMsg + " routeUrl=" + pinguoRoutings.get(consumerName).get(tag));
 					return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 				}
 			});

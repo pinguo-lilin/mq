@@ -1,11 +1,11 @@
 package pinguo.rocket.mq.entity;
 
-public class Subscribe {
-
+public class Routing {
 	private int id;
 	private int cid;
-	private String topic;
 	private String tag;
+	private String url;
+	
 	public int getId() {
 		return id;
 	}
@@ -18,16 +18,16 @@ public class Subscribe {
 	public void setCid(int cid) {
 		this.cid = cid;
 	}
-	public String getTopic() {
-		return topic;
-	}
-	public void setTopic(String topic) {
-		this.topic = topic;
-	}
 	public String getTag() {
 		return tag;
 	}
 	public void setTag(String tag) {
 		this.tag = tag;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

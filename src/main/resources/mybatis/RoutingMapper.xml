@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="pinguo.rocket.mq.dao.IroutingDao">
+
+	<!--  
+	<select id="getRowCount" resultType="int">
+		select count(*) from table_ip
+	</select>
+	-->
+	<select id="findList" resultType="pinguo.rocket.mq.entity.Routing" parameterType="map">
+		select * from consumer_routings
+	</select>
+	<select id="findByCid" resultType="pinguo.rocket.mq.entity.Routing" parameterType="int">
+		select * from consumer_routings where cid=#{cid}
+	</select>
+	<insert id="add" parameterType="pinguo.rocket.mq.entity.Routing" useGeneratedKeys="true" keyProperty="id">
+		insert into consumer_routings(cid,tag,url) values (#{cid},#{tag}, #{url})
+	</insert>
+</mapper> 

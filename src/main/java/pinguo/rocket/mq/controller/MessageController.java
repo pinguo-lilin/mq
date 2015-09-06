@@ -30,11 +30,10 @@ public class MessageController {
 		
 		System.out.println("topic="+topic);
 		System.out.println("tag="+tag);
-		System.out.println("msg="+msg);
-		producer.start();
+		System.out.println("msgs="+msg);
 		Message text = new Message(topic, tag, msg.getBytes());
 		SendResult sendResult = producer.send(text);
-		producer.shutdown();
+//		producer.shutdown();
 		System.out.println("sendResult="+sendResult.getSendStatus());
 		return "true";
 	}

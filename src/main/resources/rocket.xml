@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rocket>
+	<consumers>
+		<list>
+			<consumer-name>PinGuoPushConsumerOne</consumer-name>
+			<subscribes>
+				<data>
+					<topic>topicOne</topic>
+					<topic>tagA</topic>
+				</data>
+				<data>
+					<topic>topicOne2</topic>
+					<topic>tagB</topic>
+				</data>
+			</subscribes>
+			<routings>
+				<list>
+					<tag>tagA</tag>
+					<url>http://www.camera360.com/tagA</url>
+				</list>
+				<list>
+					<tag>tagB</tag>
+					<url>http://www.camera360.com/tagB</url>
+				</list>    
+			</routings>
+		</list>
+		<list>
+			<consumer-name>PinGuoPushConsumerTwo</consumer-name>
+			<subscribes>
+				<data>
+					<topic>topicTwo</topic>
+					<topic>tagC</topic>
+				</data>
+			</subscribes>
+			<routings>
+				<list>
+					<tag>tagC</tag>
+					<url>http://www.camera360.com/tagC</url>
+				</list>
+			</routings>
+		</list>
+	</consumers>
+</rocket>
