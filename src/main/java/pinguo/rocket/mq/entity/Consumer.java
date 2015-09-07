@@ -8,6 +8,15 @@ public class Consumer {
 	private String type;
 	private List<Routing> routings;
 	private List<Subscribe> subscribes;
+	private int persistConsumerOffsetInterval;
+
+	public int getPersistConsumerOffsetInterval() {
+		return persistConsumerOffsetInterval;
+	}
+
+	public void setPersistConsumerOffsetInterval(int persistConsumerOffsetInterval) {
+		this.persistConsumerOffsetInterval = persistConsumerOffsetInterval;
+	}
 
 	public List<Routing> getRoutings() {
 		return routings;

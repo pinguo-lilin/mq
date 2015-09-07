@@ -80,18 +80,19 @@
 		<property name="sendMsgTimeout" value="${rmq.sendMsgTimeout}"></property>
 	</bean>
 	
-	<!-- DefaultMQPushConsumer初始化 -->
+	<!-- DefaultMQPushConsumer初始化 
 	<bean id="PinGuoPushConsumerOne" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" scope="singleton">
 		<constructor-arg index="0" value="consumerOne" />
 		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
 	</bean>
-	
-	<!-- DefaultMQPushConsumer初始化 -->
+	-->
+	<!-- DefaultMQPushConsumer初始化
 	<bean id="PinGuoPushConsumerTwo" class="com.alibaba.rocketmq.client.consumer.DefaultMQPushConsumer" scope="singleton">
 		<constructor-arg index="0" value="consumerTwo" />
 		<property name="namesrvAddr" value="${rmq.namesrvAddr}"></property>
 	</bean>
-	
+	 -->
+	 
 	<!-- 初始化rocketmq消费端，不能注解注入，否则会执行两次 -->
 	<bean class="pinguo.rocket.mq.component.InitRocketMq" scope="singleton">
 	</bean>

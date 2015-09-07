@@ -18,8 +18,12 @@
 			<td><input type="text" name="tag"></td>
 		</tr>
 		<tr>
-			<td>msg</td>
-			<td><input type="text" name="msg"></td>
+			<td>info</td>
+			<td><input type="text" name="info"></td>
+		</tr>
+		<tr>
+			<td>key</td>
+			<td><input type="text" name="key"></td>
 		</tr>
 		<tr>
 			<td></td>
