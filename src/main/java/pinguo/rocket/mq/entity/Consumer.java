@@ -8,7 +8,34 @@ public class Consumer {
 	private String type;
 	private List<Routing> routings;
 	private List<Subscribe> subscribes;
+	private int pollNameServerInteval;
+	private int heartbeatBrokerInterval;
 	private int persistConsumerOffsetInterval;
+	private int consumeMessageBatchMaxSize;
+	
+	public int getPollNameServerInteval() {
+		return pollNameServerInteval;
+	}
+
+	public void setPollNameServerInteval(int pollNameServerInteval) {
+		this.pollNameServerInteval = pollNameServerInteval;
+	}
+
+	public int getHeartbeatBrokerInterval() {
+		return heartbeatBrokerInterval;
+	}
+
+	public void setHeartbeatBrokerInterval(int heartbeatBrokerInterval) {
+		this.heartbeatBrokerInterval = heartbeatBrokerInterval;
+	}
+
+	public int getConsumeMessageBatchMaxSize() {
+		return consumeMessageBatchMaxSize;
+	}
+
+	public void setConsumeMessageBatchMaxSize(int consumeMessageBatchMaxSize) {
+		this.consumeMessageBatchMaxSize = consumeMessageBatchMaxSize;
+	}
 
 	public int getPersistConsumerOffsetInterval() {
 		return persistConsumerOffsetInterval;

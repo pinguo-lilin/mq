@@ -77,10 +77,6 @@ public class ConsumerController {
 		}
 		model.addAttribute("consumerList", consumers);
 		
-		List<NameValuePair> pramas = new ArrayList<NameValuePair>();
-		pramas.add(new BasicNameValuePair("name", "stelin"));
-		pramas.add(new BasicNameValuePair("age", "13"));
-		
 		return "/admin/consumer_list";
 	}
 	

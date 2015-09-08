@@ -15,7 +15,9 @@ public class ConsumerThread implements Runnable{
 	public void run() {
 		try {
 			this.consumer.start();
-			System.out.println("消费者启动成功，name="+consumer.getConsumerGroup());
+			System.out.println("消费者启动成功，name=" + consumer.getConsumerGroup() + ",persistConsumerOffsetInterval"
+					+ consumer.getPersistConsumerOffsetInterval() + " consumeMessageBatchMaxSize"
+					+ consumer.getConsumeMessageBatchMaxSize() + " consumeThreadMax" + consumer.getConsumeThreadMax());
 		} catch (MQClientException e) {
 			e.printStackTrace();
 		}

@@ -18,6 +18,7 @@ import com.alibaba.rocketmq.common.message.MessageExt;
 
 import pinguo.rocket.mq.comm.ApplicationContextUtil;
 import pinguo.rocket.mq.comm.BeanManage;
+import pinguo.rocket.mq.comm.ConsumerHelper;
 import pinguo.rocket.mq.entity.Consumer;
 import pinguo.rocket.mq.entity.Subscribe;
 import pinguo.rocket.mq.service.ConsumerService;
@@ -49,8 +50,8 @@ public class InitRocketMq implements InitializingBean {
 			pinguoConsumers.add(consumer.getName());
 			
 			//自动注册consumer消费者bean
-			Map<String, Object> properties = new HashMap<String, Object>();
-			BeanManage.addBeanToFactory(DefaultMQPushConsumer.class, consumer.getName(), properties);
+			Map<String, Object> properties = ConsumerHelper.convertConsumerBeanProperties(consumer);
+			BeanManage.addConsumerBeanToFactory(DefaultMQPushConsumer.class, consumer.getName(), properties);
 		}
 		Map<String, List<Subscribe>> pinguoSubscribes = subscribeService.listByConsumers(consumers);
 		Map<String, Map<String, String>> pinguoRoutings = routingService.listByConsumers(consumers);
