@@ -13,8 +13,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
-import com.alibaba.fastjson.JSONObject;
-
 
 public class HttpHelper {
 	
@@ -23,10 +21,15 @@ public class HttpHelper {
 	 * 
 	 * @param urlWithParams		请求路径并且包含参数
 	 * @param requestTimeOut	请求超时时间
-	 * @return
+	 * @return string 			返回字符串
+	 * <pre>
+	 * 		可以用户JSONObject和JSONArray自行转换
+	 * 		JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+	 * 		JSONArray jsonAry = JSON.parseArray(str);
+	 * </pre>
 	 * @throws Exception
 	 */
-	public static JSONObject get(String urlWithParams, int requestTimeOut) throws Exception {
+	public static String get(String urlWithParams, int requestTimeOut) throws Exception {
 		CloseableHttpClient httpclient = HttpClientBuilder.create().build();
 		HttpGet httpget = new HttpGet(urlWithParams);
 		RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(requestTimeOut).setConnectTimeout(200)
@@ -41,9 +44,8 @@ public class HttpHelper {
 		}
 		HttpEntity entity = response.getEntity();
 		String jsonStr = EntityUtils.toString(entity, "utf-8");
-		JSONObject jsonObject = JSONObject.parseObject(jsonStr);
 		httpget.releaseConnection();
-		return jsonObject;
+		return jsonStr;
 	}
 	
 	/**
@@ -52,10 +54,15 @@ public class HttpHelper {
 	 * @param url				请求路径
 	 * @param params			请求参数
 	 * @param requestTimeOut	请求超时时间
-	 * @return
+	 * @return string 			返回字符串
+	 * <pre>
+	 * 		可以用户JSONObject和JSONArray自行转换
+	 * 		JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+	 * 		JSONArray jsonAry = JSON.parseArray(str);
+	 * </pre>
 	 * @throws Exception
 	 */
-	public static JSONObject post(String url, List<NameValuePair> params, int requestTimeOut) throws Exception {
+	public static String post(String url, List<NameValuePair> params, int requestTimeOut) throws Exception {
 		CloseableHttpClient httpclient = HttpClientBuilder.create().build();
 		HttpPost httppost = new HttpPost(url);
 		httppost.setEntity(new UrlEncodedFormEntity(params));
@@ -73,8 +80,7 @@ public class HttpHelper {
 		
 		HttpEntity entity = response.getEntity();
 		String jsonStr = EntityUtils.toString(entity, "utf-8");
-		JSONObject jsonObject = JSONObject.parseObject(jsonStr);
 		httppost.releaseConnection();
-		return jsonObject;
+		return jsonStr;
 	}
 }

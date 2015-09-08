@@ -1,7 +1,6 @@
 package pinguo.rocket.mq.component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +47,7 @@ public class InitRocketMq implements InitializingBean {
 		List<Consumer> consumers = consumerService.list();
 		for (Consumer consumer : consumers) {
 			pinguoConsumers.add(consumer.getName());
-			
+			System.out.println("addBean="+consumer.getName());
 			//自动注册consumer消费者bean
 			Map<String, Object> properties = ConsumerHelper.convertConsumerBeanProperties(consumer);
 			BeanManage.addConsumerBeanToFactory(DefaultMQPushConsumer.class, consumer.getName(), properties);
@@ -62,6 +61,7 @@ public class InitRocketMq implements InitializingBean {
 		producer.start();
 		
 		for (String consumerName : pinguoConsumers) {
+			System.out.println("initBean="+consumerName);
 			Boolean isCreate = ApplicationContextUtil.contain(consumerName);
 			if(isCreate == false){
 				System.out.println("consumer bean未创建， name=" + consumerName);
